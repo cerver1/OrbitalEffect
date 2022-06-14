@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.hunter.hunterwificonnectandroid.orbitaleffect.ui.theme.OrbitalEffectPhase1
+import com.hunter.hunterwificonnectandroid.orbitaleffect.ui.theme.OrbitalEffectPhase2
 import com.hunter.hunterwificonnectandroid.orbitaleffect.ui.theme.OrbitalEffectTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    OrbitalEffectPhase1()
+                    OrbitalEffectPhase2()
                 }
             }
         }

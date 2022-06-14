@@ -1,14 +1,11 @@
 package com.hunter.hunterwificonnectandroid.orbitaleffect.ui.theme
 
-import android.R.attr.animation
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -17,21 +14,19 @@ import com.hunter.hunterwificonnectandroid.orbitaleffect.ui.theme.UiUtils.FROM_C
 import kotlin.math.cos
 import kotlin.math.sin
 
-
 @Composable
 fun OrbitalEffectPhase1() {
 
-    val angle = remember { Animatable(0f) }
+    val infiniteTransition = rememberInfiniteTransition()
 
-    LaunchedEffect(Unit) {
-        angle.animateTo(
-            targetValue = 360f,
-            animationSpec = infiniteRepeatable(
-                animation = tween(durationMillis = 150_000, easing = LinearEasing),
-                repeatMode = RepeatMode.Reverse
-            )
+    val angle by infiniteTransition.animateFloat(
+        initialValue = 0F,
+        targetValue = 360F,
+        animationSpec = infiniteRepeatable(
+            animation = tween(200_000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
         )
-    }
+    )
 
     Canvas(
         modifier = Modifier
@@ -39,10 +34,10 @@ fun OrbitalEffectPhase1() {
             .background(Color.Black)
     ) {
 
-        val (px, py) = center.copy(x = this.center.x + FROM_CENTER, y = this.center.y + FROM_CENTER)
+        val (px, py) = center//.copy(x = this.center.x + FROM_CENTER, y = this.center.y + FROM_CENTER)
 
-        val x = FROM_CENTER * cos(angle.value) + FROM_CENTER * sin(angle.value)
-        val y = -FROM_CENTER * sin(angle.value) + FROM_CENTER * cos(angle.value)
+        val x = FROM_CENTER * cos(angle) + FROM_CENTER * sin(angle) + px
+        val y = -FROM_CENTER * sin(angle) + FROM_CENTER * cos(angle) + py
 
         drawCircle(
             color = Color.Red,
@@ -53,7 +48,7 @@ fun OrbitalEffectPhase1() {
         drawCircle(
             color = Color.White,
             radius = 10F,
-            center = Offset(px + x, py + y)
+            center = Offset(x, y)
         )
 
     }
